@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package auth;
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc AddMember(AddMemberRequest) returns (UserResponse);
+}
+
+message AddMemberRequest {
+  string presidentId = 1;
+  string name = 2;
+  int64 phoneNumber = 3;
+  string designation = 4; // president, secretary, treasurer, member
+}
+
+message LoginRequest {
+  string id = 1;
+  string password = 2;
+}
+
+message UserResponse {
+  string id = 1;
+  string name = 2;
+  int64 phoneNumber = 3;
+  string designation = 4;
+}
+
+message LoginResponse {
+  string token = 1;
+  string userId = 2;
+}

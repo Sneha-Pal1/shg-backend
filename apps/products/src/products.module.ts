@@ -15,7 +15,7 @@ import { join } from 'path';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.DATABASE_URL,
+      url: process.env.PRODUCTS_DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true,
       ssl: {

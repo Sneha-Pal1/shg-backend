@@ -12,10 +12,10 @@ async function bootstrap() {
       options: {
         package: PRODUCT_PACKAGE_NAME,
         protoPath: join(__dirname, '../../../proto/product.proto'),
-        url: `localhost:${process.env.PORT}`
-      }
-    }
-  )
+        url: `localhost:${process.env.PRODUCTS_PORT ?? 3002}`,
+      },
+    },
+  );
 
   await app.listen();
   console.log('Products microservice is listening...');
