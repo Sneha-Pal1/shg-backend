@@ -6,6 +6,9 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guatd';
 @Controller()
 export class AppController {
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({
+    summary: 'login',
+  })
   @Get('profile')
   getProfile(@Req() req: any) {
     return req.user;

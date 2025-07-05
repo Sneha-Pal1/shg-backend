@@ -16,25 +16,6 @@ export class UsersModule {
         ConfigModule,
         TypeOrmModule.forFeature([User]),
         JwtModule.register({}),
-        ClientsModule.registerAsync([
-          {
-            name: 'USER_SERVICE',
-            inject: [ConfigService],
-            useFactory: (config: ConfigService) => {
-              const url = config.get<string>('USER_SERVICE_URL')!;
-              const pkg = config.get<string>('USER_SERVICE_PACKAGE')!;
-              const protoPath = config.get<string>('USER_SERVICE_PROTO_PATH')!;
-              return {
-                transport: Transport.GRPC,
-                options: {
-                  url,
-                  package: pkg,
-                  protoPath,
-                },
-              };
-            },
-          },
-        ]),
       ],
       controllers: [UsersController],
       providers: [UsersService],
