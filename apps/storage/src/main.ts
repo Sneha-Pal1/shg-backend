@@ -12,7 +12,7 @@ async function bootstrap() {
       options: {
         package: FILE_STORAGE_PACKAGE_NAME,
         protoPath: join(__dirname, '../../../proto/file_storage.proto'),
-        url: `localhost:${process.env.PORT ?? 3000}`,
+        url: `localhost:${process.env.STORAGE_PORT ?? 3005}`,
       },
     },
   );

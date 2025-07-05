@@ -7,10 +7,10 @@ service FileStorageService {
 }
 
 message UploadFileRequest {
-  string fileName = 1;
-  string base64 = 2;
-  string mimeType = 3;
-  string token = 4; // JWT token for authentication
+  bytes file = 1;
+  string fileName = 2;
+  string contentType = 3;  
+  string token = 4; 
 }
 
 message UploadFileResponse {

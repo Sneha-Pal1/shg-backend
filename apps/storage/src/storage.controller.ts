@@ -1,12 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
-import { StorageService } from './storage.service';
+import { Controller, UseGuards } from '@nestjs/common';
+import { FileStorageService } from './storage.service';
+import {
+  FileStorageServiceController,
+  FileStorageServiceControllerMethods,
+  UploadFileRequest,
+  UploadFileResponse,
+} from '@app/common';
+// import { AuthGuard } from './auth.guard';
 
 @Controller()
-export class StorageController {
-  constructor(private readonly storageService: StorageService) {}
+@FileStorageServiceControllerMethods()
+export class FileStorageController implements FileStorageServiceController {
+  constructor(private readonly fileStorageService: FileStorageService) {}
 
-  @Get()
-  getHello(): string {
-    return this.storageService.getHello();
+  // @UseGuards(AuthGuard)
+  async uploadFile(request: UploadFileRequest): Promise<UploadFileResponse> {
+    return this.fileStorageService.uploadFile(request);
   }
 }
