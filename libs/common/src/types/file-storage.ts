@@ -2,7 +2,7 @@
 // versions:
 //   protoc-gen-ts_proto  v2.7.5
 //   protoc               v3.20.3
-// source: proto/file-storage.proto
+// source: file-storage.proto
 
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
@@ -11,10 +11,9 @@ import { Observable } from "rxjs";
 export const protobufPackage = "fileStorage";
 
 export interface UploadFileRequest {
+  file: Uint8Array;
   fileName: string;
-  base64: string;
-  mimeType: string;
-  /** JWT token for authentication */
+  contentType: string;
   token: string;
 }
 
