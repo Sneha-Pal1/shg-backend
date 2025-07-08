@@ -2,9 +2,10 @@
   "name": "shg-backend",
   "version": "0.0.1",
   "description": "Backend for SHG Project under NIC Agartala",
-  "author": "Arijit Debnath",
+  "author": "Arijit Debnath <opensource@arijit.dev>",
   "private": true,
   "license": "GPL-3.0-only",
+  "packageManager": "pnpm@10.12.4",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",

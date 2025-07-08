@@ -21,7 +21,7 @@ import { AUTH_PACKAGE_NAME, AUTH_SERVICE_NAME } from '@app/common/types/auth';
           options: {
             package: AUTH_PACKAGE_NAME,
             protoPath: join(__dirname, '../auth.proto'),
-            url: `localhost:${process.env.NODE_ENV === 'production' ? 'auth:5000' : 'localhost:5000'}`,
+            url: `${process.env.NODE_ENV === 'production' ? 'auth:50000' : 'localhost:5000'}`,
           },
         }),
         inject: [ConfigService],
