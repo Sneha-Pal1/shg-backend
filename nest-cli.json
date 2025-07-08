@@ -15,9 +15,9 @@
   "projects": {
     "api-gateway": {
       "type": "application",
-      "root": "./",
+      "root": "apps/api-gateway",
       "entryFile": "src/main",
-      "sourceRoot": "apps/api-gateway/src",
+      "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
         "assets": ["proto/*.proto"],
@@ -26,9 +26,9 @@
     },
     "auth": {
       "type": "application",
-      "root": "./",
+      "root": "apps/auth",
       "entryFile": "src/main",
-      "sourceRoot": "apps/auth/src",
+      "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/auth/tsconfig.app.json",
         "assets": ["proto/*.proto"],
@@ -37,9 +37,9 @@
     },
     "orders": {
       "type": "application",
-      "root": "./",
+      "root": "apps/orders",
       "entryFile": "src/main",
-      "sourceRoot": "apps/orders/src",
+      "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/orders/tsconfig.app.json",
         "assets": ["proto/*.proto"],
@@ -48,9 +48,9 @@
     },
     "products": {
       "type": "application",
-      "root": "./",
+      "root": "apps/products",
       "entryFile": "src/main",
-      "sourceRoot": "apps/products/src",
+      "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/products/tsconfig.app.json",
         "assets": ["proto/*.proto"],
@@ -59,9 +59,9 @@
     },
     "storage": {
       "type": "application",
-      "root": "./",
+      "root": "apps/storage",
       "entryFile": "src/main",
-      "sourceRoot": "apps/storage/src",
+      "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/storage/tsconfig.app.json",
         "assets": ["proto/*.proto"],

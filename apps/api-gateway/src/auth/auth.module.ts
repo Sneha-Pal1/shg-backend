@@ -13,6 +13,16 @@ import { AUTH_PACKAGE_NAME, AUTH_SERVICE_NAME } from '@app/common/types/auth';
 @Module({
   imports: [
     CoreModule,
+    PassportModule,
+    ConfigModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET') || 'jwtsecret',
+        signOptions: { expiresIn: '1h' },
+      }),
+      inject: [ConfigService],
+    }),
     ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE_NAME,
@@ -21,17 +31,18 @@ import { AUTH_PACKAGE_NAME, AUTH_SERVICE_NAME } from '@app/common/types/auth';
           options: {
             package: AUTH_PACKAGE_NAME,
             protoPath: join(__dirname, '../auth.proto'),
-            url: `${process.env.NODE_ENV === 'production' ? 'auth:50000' : 'localhost:5000'}`,
+            url:
+              process.env.NODE_ENV === 'production'
+                ? 'auth:50000'
+                : 'localhost:5000',
           },
         }),
         inject: [ConfigService],
       },
     ]),
-    PassportModule,
-    ConfigModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
   exports: [JwtStrategy, JwtModule, PassportModule],
 })
 export class AuthModule {}
