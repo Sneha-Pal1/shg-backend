@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Enable pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
