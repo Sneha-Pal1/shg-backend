@@ -1,34 +1,43 @@
-import { AuthServiceGrpc } from '@app/common/interfaces/auth-service.interface';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { CreateMemberDto } from 'apps/auth/src/users/dto/creatre.member.dto';
-import { LoginDto } from 'apps/auth/src/users/dto/login.dto';
-import { Observable } from 'rxjs';
+import {
+  AddMemberRequest,
+  AddMemberResponse,
+  AUTH_SERVICE_NAME,
+  AuthServiceClient,
+  GetUserByIdRequest,
+  LoginRequest,
+  LoginResponse,
+  RefreshTokenRequest,
+  RefreshTokenResponse,
+  UserResponse,
+} from '@app/common/types/auth';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class AuthService {
-  constructor(@Inject('AUTH_SERVICE') private authClient: ClientGrpc) {}
+export class AuthService implements OnModuleInit {
+  private authClient: AuthServiceClient;
 
-  private authService: AuthServiceGrpc;
+  constructor(@Inject(AUTH_SERVICE_NAME) private readonly client: ClientGrpc) {}
 
   onModuleInit() {
-    this.authService =
-      this.authClient.getService<AuthServiceGrpc>('AuthService');
+    this.authClient =
+      this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
-  login(dto: LoginDto) {
-    return this.authService.Login(dto); // gRPC call
+  async login(data: LoginRequest): Promise<LoginResponse> {
+    return await firstValueFrom(this.authClient.login(data));
   }
 
-  addMember(data: CreateMemberDto): Observable<any> {
-    return this.authService.AddMember(data);
+  async refreshToken(data: RefreshTokenRequest): Promise<RefreshTokenResponse> {
+    return await firstValueFrom(this.authClient.refreshToken(data));
   }
 
-  refreshToken(token: string): Observable<any> {
-    return this.authService.refreshToken({ refreshToken: token });
+  async getUserById(data: GetUserByIdRequest): Promise<UserResponse> {
+    return await firstValueFrom(this.authClient.getUserById(data));
   }
 
-  getUserById(id: string): Observable<any> {
-    return this.authService.GetUserById({ id });
+  async addMember(data: AddMemberRequest): Promise<AddMemberResponse> {
+    return await firstValueFrom(this.authClient.addMember(data));
   }
 }

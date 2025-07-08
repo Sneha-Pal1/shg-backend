@@ -1,29 +1,36 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto } from 'apps/auth/src/users/dto/login.dto';
-import { CreateMemberDto } from 'apps/auth/src/users/dto/creatre.member.dto';
+import {
+  AddMemberRequest,
+  LoginRequest,
+  RefreshTokenRequest,
+} from '@app/common/types/auth';
+import { AuthGuard } from '@nestjs/passport';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  login(@Body() body: LoginRequest) {
+    return this.authService.login(body);
   }
 
-  @Post('register')
-  register(@Body() dto: CreateMemberDto) {
-    return this.authService.addMember(dto);
+  @Post('refresh-token')
+  refresh(@Body() body: RefreshTokenRequest) {
+    return this.authService.refreshToken(body);
   }
 
-  @Post('refresh')
-  refresh(@Body('refreshToken') token: string) {
-    return this.authService.refreshToken(token);
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'))
+  getProfile(@CurrentUser('userId') userId: string) {
+    return this.authService.getUserById({ id: userId });
   }
 
-  @Get('user/:id')
-  getUser(@Param('id') id: string) {
-    return this.authService.getUserById(id);
+  @Post('add-member')
+  @UseGuards(AuthGuard('jwt'))
+  addMember(@Body() body: AddMemberRequest) {
+    return this.authService.addMember(body);
   }
 }

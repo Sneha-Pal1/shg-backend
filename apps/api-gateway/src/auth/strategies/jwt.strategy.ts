@@ -9,18 +9,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get('JWT_SECRET') || 'jwtsecret',
+      secretOrKey: configService.get<string>('JWT_SECRET') || 'jwtsecret',
     });
   }
 
   async validate(payload: any) {
-    if (!payload || !payload.userId) {
+    if (!payload || !payload.userId || !payload.role) {
       throw new UnauthorizedException('Invalid token');
     }
 
     return {
       userId: payload.userId,
       role: payload.role,
+      organizationId: payload.organizationId,
+      organizationType: payload.organizationType,
     };
   }
 }

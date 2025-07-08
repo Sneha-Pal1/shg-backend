@@ -2,31 +2,60 @@ syntax = "proto3";
 
 package auth;
 
-service AuthService {
-  rpc Login(LoginRequest) returns (LoginResponse);
-  rpc AddMember(AddMemberRequest) returns (UserResponse);
-}
-
-message AddMemberRequest {
-  string presidentId = 1;
-  string name = 2;
-  int64 phoneNumber = 3;
-  string designation = 4; // president, secretary, treasurer, member
-}
-
 message LoginRequest {
+  oneof identifier {
+    string userId = 1;  // for SHG / VO / CLF
+    string email = 2;   // for all including TRLM / NIC
+  }
+  string password = 3;
+}
+
+message LoginResponse {
+  string accessToken = 1;
+  string refreshToken = 2;
+  string role = 3;
+  string userId = 4;
+  string organizationId = 5;
+  string organizationType = 6;
+}
+
+message RefreshTokenRequest {
+  string refreshToken = 1;
+}
+
+message RefreshTokenResponse {
+  string accessToken = 1;
+}
+
+message GetUserByIdRequest {
   string id = 1;
-  string password = 2;
 }
 
 message UserResponse {
   string id = 1;
   string name = 2;
-  int64 phoneNumber = 3;
-  string designation = 4;
+  string phone = 3;
+  string role = 4;
+  string organizationId = 5;
+  string organizationType = 6;
 }
 
-message LoginResponse {
-  string token = 1;
-  string userId = 2;
+message AddMemberRequest {
+  string name = 1;
+  string phone = 2;
+  string password = 3;
+  string role = 4; // Enum in client side: shg_member, vo_member, clf_member
+  string organizationId = 5;
+  string organizationType = 6; // shg, vo, clf
+}
+
+message AddMemberResponse {
+  string userId = 1;
+}
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+  rpc GetUserById(GetUserByIdRequest) returns (UserResponse);
+  rpc AddMember(AddMemberRequest) returns (AddMemberResponse);
 }

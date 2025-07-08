@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: pnpm start api-gateway
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+  auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: pnpm start auth
+    ports:
+      - '5000:5000'
+    environment:
+      - NODE_ENV=production
