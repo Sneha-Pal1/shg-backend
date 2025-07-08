@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     command: pnpm start api-gateway
+    ports:
+      - 8001:8080
     environment:
       - NODE_ENV=production
   auth:
